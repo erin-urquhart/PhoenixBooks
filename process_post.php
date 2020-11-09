@@ -12,7 +12,7 @@
     //if to check if Create was clicked
     if ($_POST['command'] == 'Create')     
     {
-        //if to check if post is valid before inserting it into database
+        //if to check if book is valid before inserting it into database
         if ($post_valid)
         {
             $query = "INSERT INTO `books`(`title`, `price`, `category`,`description`,`author`) VALUES (:title, :price,:category,:description,:author)";

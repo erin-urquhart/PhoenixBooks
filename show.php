@@ -1,6 +1,5 @@
 <!--Description: Shows the selected blog post on its own. -->
 <?php
-  require 'authenticate.php';
   require 'connect.php';
   $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
   $id_valid = is_numeric($id);

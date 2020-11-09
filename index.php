@@ -21,10 +21,12 @@
       <div id="header">
           <h1><a href="index.php">Phoenix Books</a></h1>
           <h2>Browse the books we have!</h2>
+          <h3><small id="signin"><a href="sign_in.php">Sign in</a></small></h3>
+          <h3><small><a href="register.php">Register</a></small></h3>
       </div> <!-- END div id="header" -->
 <ul id="menu">
     <li><a href="index.php" class='active'>Home</a></li>
-    <li><a href="create.php" >New Post</a></li>
+    <li><a href="create.php" >New Book</a></li>
 </ul> <!-- END div id="menu" -->
 <div id="all_books">
   <!--while loop to display the 5 blog posts -->

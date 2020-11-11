@@ -1,5 +1,6 @@
 <?php
  	require('connect.php');
+ 	include('login_functions.php');
 ?>
 
 <!DOCTYPE html>
@@ -14,6 +15,8 @@
 			<h2>Login</h2>
 		</div>
 		<form method="post" action="sign_in.php">
+
+			<?php echo display_error(); ?>
 
 			<div class="input-group">
 				<label>Username</label>

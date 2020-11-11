@@ -5,7 +5,7 @@
   $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
   $id_valid = is_numeric($id);
 
- // If id is valid, sql to grab the blog post with the id, else redirected back to main page.
+ // If id is valid, sql to grab the book with the id, else redirected back to main page.
   if ($id_valid)
   {
     $query = "SELECT *

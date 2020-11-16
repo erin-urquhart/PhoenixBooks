@@ -1,6 +1,12 @@
 <!--Description: The page that allows the user to creat a new post to insert into the database. -->
 <?php
+require 'connect.php';
 include 'login_functions.php';
+
+$query = "SELECT *
+            FROM categories";
+  $statement = $db->prepare($query);
+  $statement->execute();
 ?> 
 
 <!DOCTYPE html>
@@ -68,13 +74,9 @@ include 'login_functions.php';
       <p>
         <label for="category">Category</label>
         <select name="category" id="category">
-          <option value="History">History</option>
-          <option value="Horror">Horror</option>
-          <option value="Folklore">Folklore</option>
-          <option value="Young Adult">Young Adult</option>
-          <option value="Biography">Biography</option>
-          <option value="Occult and Magic">Occult and Magic</option>
-          <option value="Poetry">Poetry</option>
+        <?php while($row = $statement->fetch()): ?>
+          <option value="<?=$row['id']?>"><?= $row['category']?></option>
+        <?php endwhile ?> 
         </select>
       </p>
       <p>

@@ -158,7 +158,7 @@ function login(){
 			if ($login_user['user_type'] == 'admin') {
 				$_SESSION['user'] = $login_user;
 				$_SESSION['success']  = "You are now logged in";
-				header('location: admin/admin_home.php');		  
+				header('location: index.php');		  
 			} else {
 				$_SESSION['user'] = $login_user;
 				$_SESSION['success']  = "You are now logged in";

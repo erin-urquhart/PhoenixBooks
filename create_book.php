@@ -1,6 +1,6 @@
 <!--Description: The page that allows the user to creat a new post to insert into the database. -->
 <?php
-require 'authenticate.php';
+include 'login_functions.php';
 ?> 
 
 <!DOCTYPE html>
@@ -12,12 +12,38 @@ require 'authenticate.php';
 </head>
 <body>
     <div id="wrapper">
+      <div class="content">
+    <!-- notification message -->
+    <?php if (isset($_SESSION['success'])) : ?>
+      <div class="error success" >
+        <h3>
+          <?php 
+            echo $_SESSION['success']; 
+            unset($_SESSION['success']);
+          ?>
+        </h3>
+      </div>
+    <?php endif ?>
+
+      <div class="profile_info">
+      <div>
+        <?php  if (isset($_SESSION['user'])) : ?>
+          <strong><?php echo $_SESSION['user']['username']; ?></strong>
+
+          <small>
+            <i  style="color: #888;">(<?php echo ucfirst($_SESSION['user']['user_type']); ?>)</i> 
+            <br>
+            <a href="index.php?logout='1'" style="color: red;">logout</a>
+          </small>
+
+        <?php endif ?>
+      </div>
         <div id="header">
             <h1><a href="index.php">Post a New Book</a></h1>
         </div> <!-- END div id="header" -->
 <ul id="menu">
     <li><a href="index.php" >Home</a></li>
-    <li><a href="create.php" class='active'>New Book</a></li>
+    <li><a href="create_book.php" class='active'>New Book</a></li>
 </ul> <!-- END div id="menu" -->
 <div id="all_blogs">
   <form action="process_post.php" method="post">
@@ -52,7 +78,7 @@ require 'authenticate.php';
         </select>
       </p>
       <p>
-        <input type="submit" name="command" value="Create" />
+        <input type="submit" name="command" value="Create Book" />
       </p>
     </fieldset>
   </form>

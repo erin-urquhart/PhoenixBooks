@@ -3,10 +3,21 @@
   
   require 'connect.php';
   include 'login_functions.php';
-  //sql to pull last 5 blog posts from the database
+
+  $orderby = "title";
+  $order = "ASC";
+
+  if(!empty($_POST["orderby"])) {
+    $orderby = $_POST["orderby"];
+  }
+
+  if(!empty($_POST["order"])) {
+    $order = $_POST["order"];
+  }
+
   $query = "SELECT *
             FROM books
-            ORDER BY title";
+            ORDER BY " . $orderby . " " . $order;
   $statement = $db->prepare($query);
   $statement->execute();
 ?>
@@ -48,21 +59,48 @@
       <div id="header">
           <h1><a href="index.php">Phoenix Books</a></h1>
           <h2>Browse the books we have!</h2>
-          <h3><small id="signin"><a href="sign_in.php">Sign in</a></small></h3>
-          <h3><small><a href="register.php">Register</a></small></h3>
+          <?php if (!isset($_SESSION['user'])) : ?>
+            <h3><small id="signin"><a href="sign_in.php">Sign in</a></small></h3>
+            <h3><small><a href="register.php">Register</a></small></h3>
+          <?php endif ?>
       </div> <!-- END div id="header" -->
+      <?php if (isset($_SESSION['user'])) :?>
+        <form action="index.php" method="post">
+        <select name="orderby" id="orderby">
+          <option value="title">Title</option>
+          <option value="author">Author</option>
+          <option value="price">Price</option>
+        </select>
+        <select name="order" id="order">
+          <option value="ASC">Ascending</option>
+          <option value="DESC">Descending</option>
+        </select>
+        <p>Currently sorted by: <?=$order?>, <?=$orderby?></p>
+        <input type="submit" name="sort" id="sort"/>
+      </form>
+      <?php endif ?>    
 <ul id="menu">
     <li><a href="index.php" class='active'>Home</a></li>
-    <li><a href="create.php" >New Book</a></li>
+    <?php if (isset($_SESSION['user'])) :?>
+      <?php if ($_SESSION['user']['user_type'] == 'admin') :?>
+        <li><a href="create_book.php" >New Book</a></li>
+        <li><a href="create_category.php" >New Category</a></li>
+      <?php endif ?>
+    <?php endif ?>
 </ul> <!-- END div id="menu" -->
 <div id="all_books">
-  <!--while loop to display the 5 blog posts -->
+  <!--while loop to display the books -->
   <?php while ($row = $statement->fetch()): ?>
       <div class="book_post">
         <h2><a href="show.php?id=<?=$row['id']?>"><?= $row['title'] ?></a></h2>
       <p>
         <small>
           Price: $<?= $row['price']?>
+        </small>
+      </p>
+       <p>
+        <small>
+          Author: <?= $row['author']?>
         </small>
       </p>
       <p>

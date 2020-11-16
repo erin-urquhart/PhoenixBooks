@@ -1,7 +1,7 @@
 <!--Description: The page that brings up the post selected for editing. -->
 <?php
-  require 'authenticate.php';
   require 'connect.php';
+  include 'login_functions.php';
   $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
   $id_valid = is_numeric($id);
 
@@ -33,12 +33,38 @@
 </head>
 <body>
     <div id="wrapper">
+      <div class="content">
+    <!-- notification message -->
+    <?php if (isset($_SESSION['success'])) : ?>
+      <div class="error success" >
+        <h3>
+          <?php 
+            echo $_SESSION['success']; 
+            unset($_SESSION['success']);
+          ?>
+        </h3>
+      </div>
+    <?php endif ?>
+
+      <div class="profile_info">
+      <div>
+        <?php  if (isset($_SESSION['user'])) : ?>
+          <strong><?php echo $_SESSION['user']['username']; ?></strong>
+
+          <small>
+            <i  style="color: #888;">(<?php echo ucfirst($_SESSION['user']['user_type']); ?>)</i> 
+            <br>
+            <a href="index.php?logout='1'" style="color: red;">logout</a>
+          </small>
+
+        <?php endif ?>
+      </div>
         <div id="header">
             <h1><a href="index.php">Phoenix Books - Edit Book</a></h1>
         </div> <!-- END div id="header" -->
 <ul id="menu">
     <li><a href="index.php" >Home</a></li>
-    <li><a href="create.php" >New Book</a></li>
+    <li><a href="create_book.php" >New Book</a></li>
 </ul> <!-- END div id="menu" -->
 <div id="all_books">
   <form action="process_post.php" method="post">

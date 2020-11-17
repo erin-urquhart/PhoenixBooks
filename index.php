@@ -15,9 +15,11 @@
     $order = $_POST["order"];
   }
 
-  $query = "SELECT *
-            FROM books
-            ORDER BY " . $orderby . " " . $order;
+  $query = "SELECT books.id, books.title, books.author, books.price, books.description ,categories.category
+    FROM books
+    LEFT JOIN categories
+    ON books.category_id = categories.id
+    ORDER BY " . $orderby . " " . $order;
   $statement = $db->prepare($query);
   $statement->execute();
 ?>

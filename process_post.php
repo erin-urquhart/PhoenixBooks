@@ -11,11 +11,11 @@
     //if to check if Create Book was clicked
     if ($_POST['command'] == 'Create Book')     
     {
-        $post_valid = isset($title) && isset($price) && isset($description) && isset($author) && !empty($title) && !empty($price) && !empty($description);
+        $post_valid = isset($title) && isset($price) && isset($description) && isset($author) && isset($category) && !empty($category) && !empty($title) && !empty($price) && !empty($description);
         //if to check if book is valid before inserting it into database
         if ($post_valid)
         {
-            $query = "INSERT INTO `books`(`title`, `price`, `category`,`description`,`author`) VALUES (:title, :price,:category,:description,:author)";
+            $query = "INSERT INTO `books`(`title`, `price`, `category_id`,`description`,`author`) VALUES (:title, :price,:category,:description,:author)";
             $statement = $db->prepare($query);
             $statement->bindValue(':title', $title); 
             $statement->bindValue(':price', $price);
@@ -48,7 +48,7 @@
         $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
         $id_valid = is_numeric($id);
 
-        $post_valid = isset($title) && isset($price) && isset($description) && isset($author) && !empty($title) && !empty($price) && !empty($description);
+        $post_valid = isset($title) && isset($price) && isset($description) && isset($author) && isset($category) && !empty($category) && !empty($title) && !empty($price) && !empty($description);
 
         //checks for valid id
         if ($id_valid)
@@ -57,7 +57,7 @@
             if($post_valid)
             {
                 $query = "UPDATE books
-                      SET title = :title, description = :description, price = :price, author = :author, category = :category
+                      SET title = :title, description = :description, price = :price, author = :author, category_id = :category
                       WHERE id = :id";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':id', $id, PDO::PARAM_INT);

@@ -1,16 +1,18 @@
-<!--Description: Shows the selected blog post on its own. -->
+<!--Description: Shows the selected book post on its own. -->
 <?php
   require 'connect.php';
   include 'login_functions.php';
   $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
   $id_valid = is_numeric($id);
 
-  // If id is valid, sql to grab the blog post with the id, else redirected back to main page.
+  // If id is valid, sql to grab the book post with the id, else redirected back to main page.
   if ($id_valid)
   {
-    $query = "SELECT *
-              FROM books
-              WHERE id = :id";
+    $query = "SELECT books.id, books.title, books.author, books.price, books.description ,categories.category
+    FROM books
+    LEFT JOIN categories
+    ON books.category_id = categories.id
+    WHERE books.id = :id";
     $statement = $db->prepare($query);
     $statement->bindValue(':id', $id, PDO::PARAM_INT);
     $statement->execute();
@@ -87,6 +89,9 @@ $book_post = $statement->fetch();
       </p>
       <p>
         <small>Author: <?=$book_post['author']?></small>
+      </p>
+      <p>
+        <small>Category: <?=$book_post['category']?></small>
       </p>
       <div class='book_content'>
         <?= $book_post['description']?>

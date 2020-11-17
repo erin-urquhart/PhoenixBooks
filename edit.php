@@ -5,15 +5,20 @@
   $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
   $id_valid = is_numeric($id);
 
- // If id is valid, sql to grab the book with the id, else redirected back to main page.
+ // If id is valid, sql to grab the book with the id, and categories, else redirected back to main page.
   if ($id_valid)
   {
-    $query = "SELECT *
+    $query_book = "SELECT *
               FROM books
               WHERE id = :id";
-    $statement = $db->prepare($query);
-    $statement->bindValue(':id', $id, PDO::PARAM_INT);
-    $statement->execute();
+    $statement_book = $db->prepare($query_book);
+    $statement_book->bindValue(':id', $id, PDO::PARAM_INT);
+    $statement_book->execute();
+
+    $query_category = "SELECT *
+            FROM categories";
+    $statement_category = $db->prepare($query_category);
+    $statement_category->execute();
   }
   else
   {
@@ -21,7 +26,7 @@
     exit();
   }
 
-  $book_post = $statement->fetch();
+  $book_post = $statement_book->fetch();
 ?> 
 
 <!DOCTYPE html>
@@ -89,13 +94,9 @@
       <p>
         <label for="category">Category</label>
         <select name="category" id="category">
-          <option value="History">History</option>
-          <option value="Horror">Horror</option>
-          <option value="Folklore">Folklore</option>
-          <option value="Young Adult">Young Adult</option>
-          <option value="Biography">Biography</option>
-          <option value="Occult and Magic">Occult and Magic</option>
-          <option value="Poetry">Poetry</option>
+          <?php while($row = $statement_category->fetch()): ?>
+            <option value="<?=$row['id']?>"><?= $row['category']?></option>
+          <?php endwhile ?> 
         </select>
       </p>
       <p>

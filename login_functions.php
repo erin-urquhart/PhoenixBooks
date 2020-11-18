@@ -1,3 +1,4 @@
+<!--The file that contains all the functions for registering a user, logging users in and out, and setting and unsetting the session. -->
 <?php 
 session_start();
 

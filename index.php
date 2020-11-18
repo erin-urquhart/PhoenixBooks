@@ -1,4 +1,4 @@
-<!--Description: Main page of the site. Shows the last 5 blog posts from the database. -->
+<!--Description: Main page of the site. Shows the last 5 books from the database. -->
 <?php
   
   require 'connect.php';

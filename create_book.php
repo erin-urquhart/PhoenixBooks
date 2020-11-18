@@ -1,12 +1,23 @@
-<!--Description: The page that allows the user to creat a new post to insert into the database. -->
+<!--Description: The page that allows the user to create a new book to insert into the database. -->
 <?php
 require 'connect.php';
 include 'login_functions.php';
 
-$query = "SELECT *
-            FROM categories";
-  $statement = $db->prepare($query);
-  $statement->execute();
+if (isset($_SESSION['user']))
+  {
+    if ($_SESSION['user']['user_type'] == 'admin')
+    {
+        $query = "SELECT *
+                    FROM categories";
+        $statement = $db->prepare($query);
+        $statement->execute();
+    }
+    else
+    {
+      header("Location:index.php");
+      exit();
+    }
+  }
 ?> 
 
 <!DOCTYPE html>

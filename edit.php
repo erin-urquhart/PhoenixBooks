@@ -1,4 +1,4 @@
-<!--Description: The page that brings up the post selected for editing. -->
+<!--Description: The page that brings up the book selected for editing. -->
 <?php
   require 'connect.php';
   include 'login_functions.php';
@@ -6,27 +6,34 @@
   $id_valid = is_numeric($id);
 
  // If id is valid, sql to grab the book with the id, and categories, else redirected back to main page.
-  if ($id_valid)
+  if (isset($_SESSION['user']))
   {
-    $query_book = "SELECT *
-              FROM books
-              WHERE id = :id";
-    $statement_book = $db->prepare($query_book);
-    $statement_book->bindValue(':id', $id, PDO::PARAM_INT);
-    $statement_book->execute();
+    if ($_SESSION['user']['user_type'] == 'admin')
+    {
+      if ($id_valid)
+      {
+        $query_book = "SELECT *
+                  FROM books
+                  WHERE id = :id";
+        $statement_book = $db->prepare($query_book);
+        $statement_book->bindValue(':id', $id, PDO::PARAM_INT);
+        $statement_book->execute();
 
-    $query_category = "SELECT *
-            FROM categories";
-    $statement_category = $db->prepare($query_category);
-    $statement_category->execute();
-  }
-  else
-  {
-    header("Location:index.php");
-    exit();
+        $query_category = "SELECT *
+                FROM categories";
+        $statement_category = $db->prepare($query_category);
+        $statement_category->execute();
+        $book_post = $statement_book->fetch();
+      }
+    }
+    else
+    {
+      header("Location:index.php");
+      exit();
+    }
   }
 
-  $book_post = $statement_book->fetch();
+  
 ?> 
 
 <!DOCTYPE html>

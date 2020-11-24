@@ -60,7 +60,9 @@ if (isset($_SESSION['user']))
         </div> <!-- END div id="header" -->
 <ul id="menu">
     <li><a href="index.php" >Home</a></li>
-    <li><a href="create_book.php" class='active'>New Book</a></li>
+    <li><a href="create_book.php" class="active">New Book</a></li>
+    <li><a href="create_category.php" >New Category</a></li>
+    <li><a href="moderate_users.php">Create/Delete Users</a></li>
 </ul> <!-- END div id="menu" -->
 <div id="all_blogs">
   <form action="process_post.php" method="post">

@@ -13,6 +13,12 @@
   $statement_category = $db->prepare($query_category);
   $statement_category->execute();
 
+  if (isset($_POST['command'])) {
+    if ($_POST['command'] == 'Reset') {
+      header("Location:index.php");
+    }
+  }
+
   if(!empty($_POST["orderby"])) {
     $orderby = $_POST["orderby"];
   }
@@ -40,12 +46,6 @@
     $statement_book->bindValue(':category', $category);  
   }
   $statement_book->execute();
-
-    ob_start();                  
-    var_dump( $_POST );           
-    $contents = ob_get_contents(); 
-    ob_end_clean();               
-    file_put_contents("duck.txt", $contents);
 
 ?>
 <!DOCTYPE html>
@@ -112,7 +112,7 @@
             <?php endwhile ?> 
             </select>
             <input type="submit" name="id" id="id" value="Search" />
-            <input type="reset" name="id" id="id" value="Reset"/>
+            <input type="submit" name="command" value="Reset"/>
         </div>  
         </form> 
       <?php endif ?> 
@@ -122,7 +122,7 @@
       <?php if ($_SESSION['user']['user_type'] == 'admin') :?>
         <li><a href="create_book.php" >New Book</a></li>
         <li><a href="create_category.php" >New Category</a></li>
-        <li><a href="create_category.php" >Create/Delete Users</a></li>
+        <li><a href="moderate_users.php" >Create/Delete Users</a></li>
       <?php endif ?>
     <?php endif ?>
 </ul> <!-- END div id="menu" -->

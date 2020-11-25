@@ -86,6 +86,10 @@
         <input name="change_password" id="change_password"/>
       </p>
       <p>
+        <label for="email">Email</label>
+        <input name="email" id="email" value="<?= $user['email']?>" />
+      </p>
+      <p>
         <label for="user_type">User Type</label>
         <select name="user_type" id="user_type">
             <option value="admin" <?php echo (isset($user['user_type']) && $user['user_type'] == 'admin') ? 'selected="selected"' : ''; ?>>Admin</option>

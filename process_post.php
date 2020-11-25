@@ -101,7 +101,31 @@
         }
     }
 
-    //if to check if Update was clicked
+     if ($_POST['command'] == 'Create User')     
+    {
+
+        $username = filter_input(INPUT_POST, 'new_user_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $user_type = filter_input(INPUT_POST, 'new_user_type', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $email = filter_input(INPUT_POST, 'new_user_email', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $password1 = filter_input(INPUT_POST, 'new_user_password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        $user_valid = isset($password1) && !empty($username) && !empty($user_type) && !empty($email) && !empty($password1);
+        //if to check if user is valid before inserting it into database
+        if ($user_valid)
+        {
+            $password = password_hash($password1, PASSWORD_DEFAULT);
+            $query = "INSERT INTO `users`(`username`, `email`, `password`,`user_type`) VALUES (:username,:email,:password,:user_type)";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':username', $username); 
+            $statement->bindValue(':email', $email);
+            $statement->bindValue(':password', $password);
+            $statement->bindValue(':user_type', $user_type);
+            $statement->execute();
+            $insert_id = $db->lastInsertId();
+        }
+    }
+
+    //if to check if Update User was clicked
     if($_POST['command'] == 'Update User')
     {
         $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
@@ -109,8 +133,9 @@
 
         $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $user_type = filter_input(INPUT_POST, 'user_type', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        $user_valid = isset($username) && isset($user_type) && !empty($username) && !empty($user_type);
+        $user_valid = isset($username) && isset($user_type) && isset($email) && !empty($username) && !empty($user_type) && !empty($email);
 
         //checks for valid id
         if ($id_valid)
@@ -120,24 +145,30 @@
             {
                 if (isset($_POST['change_password']) && !empty($_POST['change_password']))
                 {
-                    $query = "UPDATE user
-                      SET username = :username, user_type = :description
+                    $password1 = filter_input(INPUT_POST, 'change_password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                    $password = password_hash(password1, PASSWORD_DEFAULT);
+
+                    $query = "UPDATE users
+                      SET username = :username, password = :password, user_type = :user_type, email = :email
                       WHERE id = :id";
                     $statement = $db->prepare($query);
                     $statement->bindValue(':id', $id, PDO::PARAM_INT);
                     $statement->bindValue(':username', $username); 
                     $statement->bindValue(':user_type', $user_type);
+                    $statement->bindValue(':password', $password);
+                    $statement->bindValue(':email', $email);
                     $statement->execute();
                 }
                 else
                 {
-                    $query = "UPDATE user
-                        SET username = :username, user_type = :description
+                    $query = "UPDATE users
+                        SET username = :username, user_type = :user_type, email = :email
                         WHERE id = :id";
                     $statement = $db->prepare($query);
                     $statement->bindValue(':id', $id, PDO::PARAM_INT);
                     $statement->bindValue(':username', $username); 
                     $statement->bindValue(':user_type', $user_type);
+                    $statement->bindValue(':email', $email);
                     $statement->execute();
                 }
             }
@@ -145,6 +176,29 @@
         else
         {
             //returns user to index if an error was found
+            header("Location:index.php");
+            exit();
+        }
+    }
+
+    if($_POST['command'] == 'Delete User')
+    {
+        $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+        $id_valid = is_numeric($id);
+
+        //checks for valid id
+        if ($id_valid)
+        {
+            //deletes selected post from the table
+            $query = "DELETE FROM users WHERE id = :id";
+            $statement = $db->prepare($query);
+            $statement->bindValue(':id', $id, PDO::PARAM_INT);
+            $statement->execute();
+        }
+        else
+        {
+            //returns user to index if error was found
+
             header("Location:index.php");
             exit();
         }

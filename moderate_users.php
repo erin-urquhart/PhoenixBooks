@@ -70,7 +70,8 @@ if (isset($_SESSION['user']))
       <p>
         <label for="new_user">Create New User</label>
         <input name="new_user_name" id="new_user_name" placeholder="Username" />
-        <input type="new_user_password" name="new_user_password" placeholder="Password" />
+        <input name="new_user_email" type="new_user_email" placeholder="Email"/>
+        <input name="new_user_password" id="new_user_password" placeholder="Password" />
         <select name="new_user_type">
           <option value="admin">Admin</option>
           <option value="user">User</option>

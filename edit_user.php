@@ -1,4 +1,3 @@
-<!--Description: The page that brings up the book selected for editing. -->
 <?php
   require 'connect.php';
   include 'login_functions.php';
@@ -12,18 +11,13 @@
     {
       if ($id_valid)
       {
-        $query_book = "SELECT *
-                  FROM books
+        $query = "SELECT *
+                  FROM users
                   WHERE id = :id";
-        $statement_book = $db->prepare($query_book);
-        $statement_book->bindValue(':id', $id, PDO::PARAM_INT);
-        $statement_book->execute();
-
-        $query_category = "SELECT *
-                FROM categories";
-        $statement_category = $db->prepare($query_category);
-        $statement_category->execute();
-        $book_post = $statement_book->fetch();
+        $statement = $db->prepare($query);
+        $statement->bindValue(':id', $id, PDO::PARAM_INT);
+        $statement->execute();
+        $user = $statement->fetch();
       }
     }
     else
@@ -75,43 +69,33 @@
             <h1><a href="index.php">Phoenix Books - Edit Book</a></h1>
         </div> <!-- END div id="header" -->
 <ul id="menu">
-    <li><a href="index.php" >Home</a></li>
+      <li><a href="index.php" >Home</a></li>
     <li><a href="create_book.php" >New Book</a></li>
     <li><a href="create_category.php" >New Category</a></li>
-    <li><a href="moderate_users.php" >Create/Delete Users</a></li>
 </ul> <!-- END div id="menu" -->
 <div id="all_books">
   <form action="process_post.php" method="post">
     <fieldset>
-      <legend>Edit Book</legend>
+      <legend>Edit User</legend>
       <p>
-        <label for="title">Title</label>
-        <input name="title" id="title" value="<?= $book_post['title']?>"/>
+        <label for="username">Username</label>
+        <input name="username" id="username" value="<?= $user['username']?>"/>
       </p>
       <p>
-        <label for="price">Price</label>
-        <input name="price" id="price" value="<?= $book_post['price']?>"/>
+        <label for="change_password">Change Password</label>
+        <input name="change_password" id="change_password"/>
       </p>
       <p>
-        <label for="author">Author</label>
-        <input name="author" id="author" value="<?= $book_post['author']?>"/>
-      </p>
-      <p>
-        <label for="Description">Description</label>
-        <textarea name="description" id="description"><?= $book_post['description']?></textarea>
-      </p>
-      <p>
-        <label for="category">Category</label>
-        <select name="category" id="category">
-          <?php while($row = $statement_category->fetch()): ?>
-            <option value="<?=$row['id']?>"><?= $row['category']?></option>
-          <?php endwhile ?> 
+        <label for="user_type">User Type</label>
+        <select name="user_type" id="user_type">
+            <option value="admin" <?php echo (isset($user['user_type']) && $user['user_type'] == 'admin') ? 'selected="selected"' : ''; ?>>Admin</option>
+            <option value="user" <?php echo (isset($user['user_type']) && $user['user_type'] == 'user') ? 'selected="selected"' : ''; ?>>User</option>
         </select>
       </p>
       <p>
-        <input type="hidden" name="id" value="<?= $book_post['id']?>" />
-        <input type="submit" name="command" value="Update" />
-        <input type="submit" name="command" value="Delete" onclick="return confirm('Are you sure you wish to delete this book?')" />
+        <input type="hidden" name="id" value="<?= $user['id']?>" />
+        <input type="submit" name="command" value="Update User" />
+        <input type="submit" name="command" value="Delete User" onclick="return confirm('Are you sure you wish to delete this user?')" />
       </p>
     </fieldset>
   </form>

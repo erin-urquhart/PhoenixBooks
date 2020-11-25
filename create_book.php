@@ -64,7 +64,7 @@ if (isset($_SESSION['user']))
     <li><a href="create_category.php" >New Category</a></li>
     <li><a href="moderate_users.php">Create/Delete Users</a></li>
 </ul> <!-- END div id="menu" -->
-<div id="all_blogs">
+<div id="all_books">
   <form action="process_post.php" method="post">
     <fieldset>
       <legend>New Book</legend>

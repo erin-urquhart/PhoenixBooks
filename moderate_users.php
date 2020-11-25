@@ -7,7 +7,7 @@ if (isset($_SESSION['user']))
     if ($_SESSION['user']['user_type'] == 'admin')
     {
         $query = "SELECT *
-                    FROM categories";
+                    FROM users";
         $statement = $db->prepare($query);
         $statement->execute();
     }
@@ -17,7 +17,7 @@ if (isset($_SESSION['user']))
       exit();
     }
   }
-  
+
 ?> 
 
 <!DOCTYPE html>
@@ -64,18 +64,38 @@ if (isset($_SESSION['user']))
     <li><a href="create_category.php" >New Category</a></li>
     <li><a href="moderate_users.php" class='active' >Create/Delete Users</a></li>
 </ul> <!-- END div id="menu" -->
-<div id="all_blogs">
+<div id="all_books">
   <form action="process_post.php" method="post">
     <fieldset>
       <p>
-        <label for="category">Category</label>
-        <input name="category" id="category" />
+        <label for="new_user">Create New User</label>
+        <input name="new_user_name" id="new_user_name" placeholder="Username" />
+        <input type="new_user_password" name="new_user_password" placeholder="Password" />
+        <select name="new_user_type">
+          <option value="admin">Admin</option>
+          <option value="user">User</option>
+        </select>
       </p>
       <p>
-        <input type="submit" name="command" value="Create Category" />
+        <input type="submit" name="command" value="Create User" />
       </p>
     </fieldset>
   </form>
+<table id= "users">
+  <tr>
+    <th>Username</th>
+    <th>User Type</th>
+    <th>Email</th>
+  </tr>
+  <?php while ($row = $statement->fetch()): ?>
+  <tr>
+    <td><?= $row['username']?></td>
+    <td><?= $row['user_type']?></td>
+    <td><?= $row['email']?></td>
+    <td><a href="edit_user.php?id=<?=$row['id']?>">Edit</a></td>
+  </tr>
+  <?php endwhile ?>
+</table>
 </div>
         <div id="footer">
             PhoenixBooks 2020 - No Rights Reserved

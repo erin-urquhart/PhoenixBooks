@@ -100,6 +100,55 @@
             exit();
         }
     }
+
+    //if to check if Update was clicked
+    if($_POST['command'] == 'Update User')
+    {
+        $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+        $id_valid = is_numeric($id);
+
+        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $user_type = filter_input(INPUT_POST, 'user_type', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        $user_valid = isset($username) && isset($user_type) && !empty($username) && !empty($user_type);
+
+        //checks for valid id
+        if ($id_valid)
+        {
+            //checks for a valid post before updating 
+            if($user_valid)
+            {
+                if (isset($_POST['change_password']) && !empty($_POST['change_password']))
+                {
+                    $query = "UPDATE user
+                      SET username = :username, user_type = :description
+                      WHERE id = :id";
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':id', $id, PDO::PARAM_INT);
+                    $statement->bindValue(':username', $username); 
+                    $statement->bindValue(':user_type', $user_type);
+                    $statement->execute();
+                }
+                else
+                {
+                    $query = "UPDATE user
+                        SET username = :username, user_type = :description
+                        WHERE id = :id";
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':id', $id, PDO::PARAM_INT);
+                    $statement->bindValue(':username', $username); 
+                    $statement->bindValue(':user_type', $user_type);
+                    $statement->execute();
+                }
+            }
+        }
+        else
+        {
+            //returns user to index if an error was found
+            header("Location:index.php");
+            exit();
+        }
+    }
 ?>
 
 <!DOCTYPE html>

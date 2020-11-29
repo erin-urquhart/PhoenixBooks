@@ -40,46 +40,41 @@ $book_post = $statement->fetch();
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div id="wrapper">
-      <div class="content">
+  <div class="container">
     <!-- notification message -->
     <?php if (isset($_SESSION['success'])) : ?>
-      <div class="error success" >
-        <h3>
-          <?php 
-            echo $_SESSION['success']; 
-            unset($_SESSION['success']);
-          ?>
-        </h3>
+      <div class="alert alert-success alert-dismissible fade show" >
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Success!</strong> <?php echo $_SESSION['success'];  ?>
+        <?php  unset($_SESSION['success']); ?>
       </div>
     <?php endif ?>
-
-      <div class="profile_info">
-      <div>
+      <div class="container">
         <?php  if (isset($_SESSION['user'])) : ?>
           <strong><?php echo $_SESSION['user']['username']; ?></strong>
-
           <small>
             <i  style="color: #888;">(<?php echo ucfirst($_SESSION['user']['user_type']); ?>)</i> 
             <br>
             <a href="index.php?logout='1'" style="color: red;">logout</a>
           </small>
-
         <?php endif ?>
       </div>
-        <div id="header">
+        <div class="jumbotron text-center" style="margin-bottom:0">
             <h1><a href="index.php">Phoenix Books - <?= $book_post['title'] ?></a></h1>
         </div> <!-- END div id="header" -->
-<ul id="menu">
-    <li><a href="index.php" >Home</a></li>
-        <?php if (isset($_SESSION['user'])) :?>
-          <?php if ($_SESSION['user']['user_type'] == 'admin') :?>
-            <li><a href="create_book.php" >New Post</a></li>
-          <?php endif ?>
+<nav class="navbar navbar-expand-sm bg-light justify-content-center">          
+  <ul class="navbar-nav">
+      <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+      <?php if (isset($_SESSION['user'])) :?>
+        <?php if ($_SESSION['user']['user_type'] == 'admin') :?>
+          <li class="nav-item"><a class="nav-link" href="create_book.php" >New Book</a></li>
+          <li class="nav-item"><a class="nav-link" href="create_category.php" >New Category</a></li>
+          <li class="nav-item"><a class="nav-link" href="moderate_users.php" >Create/Delete Users</a></li>
         <?php endif ?>
-</ul> <!-- END div id="menu" -->
-  <div id="all_books">
-    <div class="book_post">
+      <?php endif ?>
+  </ul>
+</nav> 
+    <div class="container p-2 my-2 bg-light text-grey">
       <h2><a><?=$book_post['title']?></a>
         <?php if (isset($_SESSION['user'])) :?>
           <?php if ($_SESSION['user']['user_type'] == 'admin') :?>
@@ -98,14 +93,10 @@ $book_post = $statement->fetch();
       <p>
         <small>Category: <?=$book_post['category']?></small>
       </p>
-      <div class='book_content'>
         <?= $book_post['description']?>
-      </div>
     </div>
-  </div>
-        <div id="footer">
+        <div class="container">
             PhoenixBooks 2020 - No Rights Reserved
-        </div> <!-- END div id="footer" -->
-    </div> <!-- END div id="wrapper" -->
+        </div>
 </body>
 </html>

@@ -14,29 +14,29 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-	<div id="wrapper">	
+	<div class="container p-2 my-2 bg-light text-grey">
 		<div id="header">
 			<h2>Register</h2>
 		</div>
 		<form method="post" action="register.php">
 			<?php echo display_error(); ?>
-			<div class="input-group">
+			<div class="container">
 				<label>Username</label>
 				<input type="text" name="username" value="<?php echo $username; ?>">
 			</div>
-			<div class="input-group">
+			<div class="container">
 				<label>Email</label>
 				<input type="email" name="email" value="<?php echo $email; ?>">
 			</div>
-			<div class="input-group">
+			<div class="container">
 				<label>Password</label>
 				<input type="password" name="password_1">
 			</div>
-			<div class="input-group">
+			<div class="container">
 				<label>Confirm password</label>
 				<input type="password" name="password_2">
 			</div>
-			<div class="input-group">
+			<div class="container">
 				<button type="submit" class="btn" name="register_btn">Register</button>
 			</div>
 			<p>

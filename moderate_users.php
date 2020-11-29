@@ -32,47 +32,40 @@ if (isset($_SESSION['user']))
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div id="wrapper">
-      <div class="content">
-    <!-- notification message -->
+  <div class="container">
     <?php if (isset($_SESSION['success'])) : ?>
-      <div class="error success" >
-        <h3>
-          <?php 
-            echo $_SESSION['success']; 
-            unset($_SESSION['success']);
-          ?>
-        </h3>
+      <div class="alert alert-success alert-dismissible fade show" >
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Success!</strong> <?php echo $_SESSION['success'];  ?>
+        <?php  unset($_SESSION['success']); ?>
       </div>
     <?php endif ?>
-
-      <div class="profile_info">
-      <div>
-        <?php  if (isset($_SESSION['user'])) : ?>
-          <strong><?php echo $_SESSION['user']['username']; ?></strong>
-
-          <small>
-            <i  style="color: #888;">(<?php echo ucfirst($_SESSION['user']['user_type']); ?>)</i> 
-            <br>
-            <a href="index.php?logout='1'" style="color: red;">logout</a>
-          </small>
-
-        <?php endif ?>
+    <div>
+      <?php  if (isset($_SESSION['user'])) : ?>
+        <strong><?php echo $_SESSION['user']['username']; ?></strong>
+        <small>
+          <i  style="color: #888;">(<?php echo ucfirst($_SESSION['user']['user_type']); ?>)</i> 
+          <br>
+          <a href="index.php?logout='1'" style="color: red;">logout</a>
+        </small>
+      <?php endif ?>
+    </div>
+      <div class="jumbotron text-center" style="margin-bottom:0">
+          <h1><a href="index.php">View/Moderate Users</a></h1>
       </div>
-        <div id="header">
-            <h1><a href="index.php">View/Moderate Users</a></h1>
-        </div> <!-- END div id="header" -->
-<ul id="menu">
-    <li><a href="index.php" >Home</a></li>
-    <li><a href="create_book.php" >New Book</a></li>
-    <li><a href="create_category.php" >New Category</a></li>
-    <li><a href="moderate_users.php" class='active' >Create/Delete Users</a></li>
-</ul> <!-- END div id="menu" -->
-<div id="all_books">
+<nav class="navbar navbar-expand-sm bg-light justify-content-center">          
+  <ul class="navbar-nav">
+    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="create_book.php" >New Book</a></li>
+    <li class="nav-item"><a class="nav-link" href="create_category.php" >New Category</a></li>
+    <li class="nav-item"><a class="nav-link" href="moderate_users.php" >Create/Delete Users</a></li>
+  </ul>
+</nav> 
+<div class="container p-2 my-2 bg-light text-grey">
   <form action="process_post.php" method="post">
     <fieldset>
       <p>
-        <label for="new_user">Create New User</label>
+        <label for="new_user">Create New User:</label>
         <input name="new_user_name" id="new_user_name" placeholder="Username" />
         <input name="new_user_email" type="new_user_email" placeholder="Email"/>
         <input name="new_user_password" id="new_user_password" placeholder="Password" />
@@ -86,11 +79,12 @@ if (isset($_SESSION['user']))
       </p>
     </fieldset>
   </form>
-<table id= "users">
+<table class="table table-striped">
   <tr>
     <th>Username</th>
     <th>User Type</th>
     <th>Email</th>
+    <th></th>
   </tr>
   <?php while ($row = $statement->fetch()): ?>
   <tr>

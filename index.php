@@ -71,7 +71,7 @@
     <?php endif ?>
 
       <div class="container">
-      <div>
+      <div class="container">
         <?php  if (isset($_SESSION['user'])) : ?>
           <strong><?php echo $_SESSION['user']['username']; ?></strong>
           <small>

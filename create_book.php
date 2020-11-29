@@ -32,79 +32,71 @@ if (isset($_SESSION['user']))
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <body>
-    <div id="wrapper">
-      <div class="content">
-    <!-- notification message -->
+<div class="container">
     <?php if (isset($_SESSION['success'])) : ?>
-      <div class="error success" >
-        <h3>
-          <?php 
-            echo $_SESSION['success']; 
-            unset($_SESSION['success']);
-          ?>
-        </h3>
+      <div class="alert alert-success alert-dismissible fade show" >
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Success!</strong> <?php echo $_SESSION['success'];  ?>
+        <?php  unset($_SESSION['success']); ?>
       </div>
     <?php endif ?>
-
-      <div class="profile_info">
-      <div>
-        <?php  if (isset($_SESSION['user'])) : ?>
-          <strong><?php echo $_SESSION['user']['username']; ?></strong>
-
-          <small>
-            <i  style="color: #888;">(<?php echo ucfirst($_SESSION['user']['user_type']); ?>)</i> 
-            <br>
-            <a href="index.php?logout='1'" style="color: red;">logout</a>
-          </small>
-
-        <?php endif ?>
-      </div>
-        <div id="header">
-            <h1><a href="index.php">Post a New Book</a></h1>
-        </div> <!-- END div id="header" -->
-<ul id="menu">
-    <li><a href="index.php" >Home</a></li>
-    <li><a href="create_book.php" class="active">New Book</a></li>
-    <li><a href="create_category.php" >New Category</a></li>
-    <li><a href="moderate_users.php">Create/Delete Users</a></li>
-</ul> <!-- END div id="menu" -->
-<div id="all_books">
-  <form action="process_post.php" method="post">
-    <fieldset>
-      <legend>New Book</legend>
-      <p>
+    <div class="container">
+      <?php if (isset($_SESSION['user'])) : ?>
+        <strong><?php echo $_SESSION['user']['username']; ?></strong>
+        <small>
+          <i  style="color: #888;">(<?php echo ucfirst($_SESSION['user']['user_type']); ?>)</i> 
+          <br>
+          <a href="index.php?logout='1'" style="color: red;">logout</a>
+        </small>
+      <?php endif ?>  
+    </div>
+    <div class="jumbotron text-center" style="margin-bottom:0">
+      <h1><a href="index.php">Post a New Book</a></h1>
+    </div>
+  <nav class="navbar navbar-expand-sm bg-light justify-content-center">
+    <ul class="navbar-nav">
+      <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="create_book.php" >New Book</a></li>
+      <li class="nav-item"><a class="nav-link" href="create_category.php" >New Category</a></li>
+      <li class="nav-item"><a class="nav-link" href="moderate_users.php" >Create/Delete Users</a></li>
+    </ul>
+  </nav>
+<div class="d-flex justify-content-center align-items-center container p-2 my-2 bg-light text-grey">
+  <div class="row">
+    <form action="process_post.php" method="post">
+      <div class="form-group">
+        <legend>New Book</legend>
         <label for="title">Title</label>
         <input name="title" id="title" />
-      </p>
-      <p>
+      </div>
+      <div class="form-group">
         <label for="price">Price</label>
         <input name="price" name="price">
-      </p>
-      <p>
+      </div>
+      <div class="form-group">
         <label for="author">Author</label>
         <input name="author" name="author">
-      </p>
-      <p>
+      </div>
+      <div class="form-group">
         <label for="description">Description</label>
         <textarea name="description" id="description"></textarea>
-      </p>
-      <p>
+      </div>
+      <div class="form-group">
         <label for="category">Category</label>
         <select name="category" id="category">
         <?php while($row = $statement->fetch()): ?>
           <option value="<?=$row['id']?>"><?= $row['category']?></option>
         <?php endwhile ?> 
         </select>
-      </p>
+      </div>
       <p>
         <input type="submit" name="command" value="Create Book" />
       </p>
-    </fieldset>
-  </form>
+    </form>
+  </div>
 </div>
         <div id="footer">
             PhoenixBooks 2020 - No Rights Reserved
         </div> <!-- END div id="footer" -->
-    </div> <!-- END div id="wrapper" -->
 </body>
 </html>

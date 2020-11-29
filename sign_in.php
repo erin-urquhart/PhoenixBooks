@@ -16,23 +16,23 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-	<div id="wrapper">
-		<div id="header">
+	<div class="container p-2 my-2 bg-light text-grey">
+		<div>
 			<h2>Login</h2>
 		</div>
 		<form method="post" action="sign_in.php">
 
 			<?php echo display_error(); ?>
 
-			<div class="input-group">
+			<div class="container">
 				<label>Username</label>
 				<input type="text" name="username" >
 			</div>
-			<div class="input-group">
+			<div class="container">
 				<label>Password</label>
 				<input type="password" name="password">
 			</div>
-			<div class="input-group">
+			<div class="container">
 				<button type="submit" class="btn" name="login_btn">Login</button>
 			</div>
 			<p>

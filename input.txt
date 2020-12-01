@@ -1,0 +1,32 @@
+array(7) {
+  ["title"]=>
+  string(53) "The Noble and Renowned History of Guy Earl of Warwick"
+  ["price"]=>
+  string(5) "75.99"
+  ["author"]=>
+  string(13) "John Merridew"
+  ["description"]=>
+  string(236) "Containing a Full and True Account of His Many Famous and Valiant Actions Remarkable and Brave Exploits and Noble and Renowned Picturics (Classic Reprint)
+Hardcover, dust cover shows slight shelf wear but otherwise in a good condition."
+  ["category"]=>
+  string(1) "6"
+  ["id"]=>
+  string(2) "14"
+  ["command"]=>
+  string(6) "Update"
+}
+array(1) {
+  ["image"]=>
+  array(5) {
+    ["name"]=>
+    string(15) "71Ew6j4t3tL.jpg"
+    ["type"]=>
+    string(10) "image/jpeg"
+    ["tmp_name"]=>
+    string(24) "C:\xampp\tmp\phpE036.tmp"
+    ["error"]=>
+    int(0)
+    ["size"]=>
+    int(233420)
+  }
+}

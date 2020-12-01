@@ -4,10 +4,10 @@ require 'connect.php';
 require '\xampp\htdocs\test\php-image-resize-master\lib\ImageResize.php';
 require '\xampp\htdocs\test\php-image-resize-master\lib\ImageResizeException.php';
 // input sanitization
-// ob_start();
-// var_dump($_POST);
-// var_dump($_FILES);
-// file_put_contents("input.txt", ob_get_flush());
+ob_start();
+var_dump($_POST);
+var_dump($_FILES);
+file_put_contents("input.txt", ob_get_flush());
 $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -150,11 +150,11 @@ if ($_POST['command'] == 'Update') {
                 $query = "UPDATE books
                       SET title = :title, description = :description, price = :price, author = :author, category_id = :category";
                       
-                if (isset($delete_image) && ! empty($delete_image)) {
+                if (isset($delete_image) && !empty($delete_image)) {
                     $unlink = true;
                     $query .= ", image = :image ";
                 }
-                $query .= "WHERE id = :id";
+                $query .= " WHERE id = :id";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':id', $id, PDO::PARAM_INT);
                 $statement->bindValue(':title', $title);

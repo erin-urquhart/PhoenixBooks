@@ -84,8 +84,14 @@ $book_post = $statement->fetch();
         <?php endif ?>
       </h2>
       <?php if (isset($book_post['image']) && !empty($book_post['image'])): ?>
+        <?php 
+        $pieces = explode(".", $book_post['image']);
+        $front_crud = $pieces[0];
+        $extension_crud = $pieces[1];
+        $thumbnail_filename = "${front_crud}_thumbnail.${extension_crud}";
+        ?>
           <div class="form-group">
-            <img src="uploads/<?=$book_post['image']?>"/>
+            <img class="img-fluid" src="uploads/<?=$thumbnail_filename?>"/>
           </div>
       <?php endif ?>
       <p>

@@ -46,7 +46,6 @@
     $statement_book->bindValue(':category', $category);  
   }
   $statement_book->execute();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -130,7 +129,7 @@
 <div class="container p-2 my-2 bg-light text-grey">
   <div class="row">
     <!--while loop to display the books -->
-    <?php while ($row_book = $statement_book->fetch()): ?>
+    <?php while ($row_book = $statement_book->fetch()): ?>    
         <div class="col-sm-3">
           <h2><a href="show.php?id=<?=$row_book['id']?>"><?= $row_book['title'] ?></a></h2>
         <p>

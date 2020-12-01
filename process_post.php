@@ -128,7 +128,6 @@ if ($_POST['command'] == 'Update') {
                     $image = new \Gumlet\ImageResize("{$new_image_path}");
                     $image->resizeToWidth(300);
                     $image->save("$thumbnail_filename");
-                    file_put_contents("test.txt", $image_filename);
                     if (isset($current_image) && ! empty($current_image)) {
                         $unlink = true;
                     }

@@ -80,7 +80,7 @@
 </nav> <!-- END div id="menu" -->
 <div class="d-flex justify-content-center align-items-center container p-2 my-2 bg-light text-grey">
   <div class="row">
-    <form action="process_post.php" method="post">
+    <form action="process_post.php" enctype="multipart/form-data" method="post">
       <div class="form-group">
         <legend>Edit Book</legend>
           <label for="title">Title</label>
@@ -106,6 +106,19 @@
             <?php endwhile ?> 
           </select>
         </div>
+        <div class="form-group">
+          <label for='image'>Image (Optional)</label>
+          <input type='file' name='image' id='image'>
+        </div>
+        <?php if (isset($book_post['image']) && !empty($book_post['image'])): ?>
+          <div class="form-group">
+            <p>Current image:</p>
+            <img src="uploads/<?=$book_post['image']?>"/>
+            <input type="checkbox" name="delete_image" value="delete_image">
+            <label for="delete_image">Delete Current Image?</label>
+            <input type="hidden" name="current_image" value="<?=$book_post['image']?>">
+          </div>
+        <?php endif ?>
         <p>
           <input type="hidden" name="id" value="<?= $book_post['id']?>" />
           <input type="submit" class="btn btn-primary" name="command" value="Update" />

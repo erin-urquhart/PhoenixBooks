@@ -8,7 +8,7 @@
   // If id is valid, sql to grab the book post with the id, else redirected back to main page.
   if ($id_valid)
   {
-    $query = "SELECT books.id, books.title, books.author, books.price, books.description ,categories.category
+    $query = "SELECT books.id, books.title, books.author, books.price, books.image, books.description ,categories.category
     FROM books
     LEFT JOIN categories
     ON books.category_id = categories.id
@@ -28,7 +28,6 @@ $book_post = $statement->fetch();
 ?> 
 
 <!DOCTYPE html>
-<html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -84,6 +83,11 @@ $book_post = $statement->fetch();
           <?php endif ?>
         <?php endif ?>
       </h2>
+      <?php if (isset($book_post['image']) && !empty($book_post['image'])): ?>
+          <div class="form-group">
+            <img src="uploads/<?=$book_post['image']?>"/>
+          </div>
+      <?php endif ?>
       <p>
         <small>Price: $<?=$book_post['price']?></small>
       </p>

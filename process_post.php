@@ -4,15 +4,18 @@ require 'connect.php';
 require '\xampp\htdocs\test\php-image-resize-master\lib\ImageResize.php';
 require '\xampp\htdocs\test\php-image-resize-master\lib\ImageResizeException.php';
 // input sanitization
-ob_start();
-var_dump($_POST);
-var_dump($_FILES);
-file_put_contents("input.txt", ob_get_flush());
+// ob_start();
+// var_dump($_POST);
+// var_dump($_FILES);
+// file_put_contents("input.txt", ob_get_flush());
 $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $category = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_NUMBER_INT);
 $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+$comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$book_id = filter_input(INPUT_POST, 'book_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $current_image = filter_input(INPUT_POST, 'current_image', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $delete_image = filter_input(INPUT_POST, 'delete_image', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -101,6 +104,31 @@ if ($_POST['command'] == 'Create Category') {
         $statement->bindValue(':category', $category);
         $statement->execute();
         $insert_id = $db->lastInsertId();
+    }
+}
+
+//if to check if Post Comment was clicked
+if ($_POST['command'] == 'Post Comment') {
+    $comment_valid = isset($comment) && isset($username) && isset($book_id) && !empty($comment) && !empty($username) && !empty($book_id);
+
+    if ($comment_valid) {
+        $query_username = "SELECT *
+                    FROM users
+                    WHERE username = ':username'";
+        $statement_username = $db->prepare($query);
+        $statement_username->bindValue(':username', $username);
+        $statement_username->execute();
+        $user = $statement_username->fetch();
+        $user_final = $user['id'];
+
+        $query = "INSERT INTO `comments`(`user_id`,`book_id`,`comment`) VALUES (:user_id,:book_id,:comment)";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':user_id', $user_final);
+        $statement->bindValue(':book_id', $book_id);
+        $statement->bindValue(':comment', $comment);
+        $statement->execute();
+        $insert_id = $db->lastInsertId();
+        file_put_contents("test.txt", $user_final);
     }
 }
 

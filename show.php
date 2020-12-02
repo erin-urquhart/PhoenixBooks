@@ -110,7 +110,8 @@ $book_post = $statement->fetch();
         <div class="container">
           <form action="process_post.php" method="post">
             <p>Currently logged in as: <?=$_SESSION['user']['username']?></p>
-            <input type="hidden" name="id" value="<?= $_SESSION['user']['username']?>" />
+            <input type="hidden" name="username" id="username" value="<?= $_SESSION['user']['username']?>" />
+            <input type="hidden" name="book_id" id="book_id" value="<?=$book_post['id']?>">
             <textarea name="comment" id="comment" /></textarea>
             <input type="submit" name="command" value="Post Comment" />
           </form>
@@ -118,6 +119,8 @@ $book_post = $statement->fetch();
       <?php else :?>
       <a href="sign_in.php">Please sign in to comment</a>
       <?php endif?>
+    </div>
+    <div class="container p-2 my-2 bg-light text-grey">
     </div>
         <div class="container">
             PhoenixBooks 2020 - No Rights Reserved

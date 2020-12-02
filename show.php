@@ -105,6 +105,20 @@ $book_post = $statement->fetch();
       </p>
         <?= $book_post['description']?>
     </div>
+    <div class="container p-2 my-2 bg-light text-grey">
+      <?php if (isset($_SESSION['user'])):?>
+        <div class="container">
+          <form action="process_post.php" method="post">
+            <p>Currently logged in as: <?=$_SESSION['user']['username']?></p>
+            <input type="hidden" name="id" value="<?= $_SESSION['user']['username']?>" />
+            <textarea name="comment" id="comment" /></textarea>
+            <input type="submit" name="command" value="Post Comment" />
+          </form>
+        </div>
+      <?php else :?>
+      <a href="sign_in.php">Please sign in to comment</a>
+      <?php endif?>
+    </div>
         <div class="container">
             PhoenixBooks 2020 - No Rights Reserved
         </div>

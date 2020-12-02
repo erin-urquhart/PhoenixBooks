@@ -110,7 +110,7 @@ $book_post = $statement->fetch();
         <div class="container">
           <form action="process_post.php" method="post">
             <p>Currently logged in as: <?=$_SESSION['user']['username']?></p>
-            <input type="hidden" name="username" id="username" value="<?= $_SESSION['user']['username']?>" />
+            <input type="hidden" name="user_id" id="user_id" value="<?= $_SESSION['user']['id']?>" />
             <input type="hidden" name="book_id" id="book_id" value="<?=$book_post['id']?>">
             <textarea name="comment" id="comment" /></textarea>
             <input type="submit" name="command" value="Post Comment" />

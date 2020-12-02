@@ -13,9 +13,6 @@ $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
 $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $category = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_NUMBER_INT);
 $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-$comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-$book_id = filter_input(INPUT_POST, 'book_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $current_image = filter_input(INPUT_POST, 'current_image', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $delete_image = filter_input(INPUT_POST, 'delete_image', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -109,26 +106,28 @@ if ($_POST['command'] == 'Create Category') {
 
 //if to check if Post Comment was clicked
 if ($_POST['command'] == 'Post Comment') {
-    $comment_valid = isset($comment) && isset($username) && isset($book_id) && !empty($comment) && !empty($username) && !empty($book_id);
+    $comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $book_id = filter_input(INPUT_POST, 'book_id', FILTER_SANITIZE_NUMBER_INT);
+    $user_id = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
+            file_put_contents("test.txt", $user_id);
+        file_put_contents("test.txt", $book_id, FILE_APPEND);
+        file_put_contents("test.txt", $comment, FILE_APPEND);
+
+    $comment_valid = isset($comment) && isset($user_id) && isset($book_id) && !empty($comment) && !empty($user_id) && !empty($book_id);
 
     if ($comment_valid) {
-        $query_username = "SELECT *
-                    FROM users
-                    WHERE username = ':username'";
-        $statement_username = $db->prepare($query);
-        $statement_username->bindValue(':username', $username);
-        $statement_username->execute();
-        $user = $statement_username->fetch();
-        $user_final = $user['id'];
-
         $query = "INSERT INTO `comments`(`user_id`,`book_id`,`comment`) VALUES (:user_id,:book_id,:comment)";
         $statement = $db->prepare($query);
-        $statement->bindValue(':user_id', $user_final);
+        $statement->bindValue(':user_id', $user_id);
         $statement->bindValue(':book_id', $book_id);
         $statement->bindValue(':comment', $comment);
         $statement->execute();
         $insert_id = $db->lastInsertId();
-        file_put_contents("test.txt", $user_final);
+        file_put_contents("test.txt", "tomato");
+                file_put_contents("test.txt", $user_id, FILE_APPEND);
+        file_put_contents("test.txt", $book_id, FILE_APPEND);
+        file_put_contents("test.txt", $comment, FILE_APPEND);
+
     }
 }
 

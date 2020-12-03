@@ -16,6 +16,18 @@
     $statement = $db->prepare($query);
     $statement->bindValue(':id', $id, PDO::PARAM_INT);
     $statement->execute();
+
+    $query_comments = "SELECT u.username, c.comment, c.book_id, c.user_id, c.date_created
+    FROM comments c
+    JOIN users u 
+      ON u.id = c.user_id
+    JOIN books b
+      ON b.id = c.book_id
+      WHERE c.book_id = :id
+      ORDER BY date_created DESC";  
+    $statement_comments = $db->prepare($query_comments);
+    $statement_comments->bindValue(':id', $id, PDO::PARAM_INT);
+    $statement_comments->execute();
   }
   else
   {
@@ -120,8 +132,13 @@ $book_post = $statement->fetch();
       <a href="sign_in.php">Please sign in to comment</a>
       <?php endif?>
     </div>
-    <div class="container p-2 my-2 bg-light text-grey">
-    </div>
+      <?php while ($row_comment = $statement_comments->fetch()): ?>
+      <div class="container p-2 my-2 bg-light text-grey">
+        <strong><?=$row_comment['username']?></strong>
+        <small><?=$row_comment['date_created']?></small>
+        <p><?=$row_comment['comment']?></p>
+      </div>
+      <?php endwhile?>
         <div class="container">
             PhoenixBooks 2020 - No Rights Reserved
         </div>

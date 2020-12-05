@@ -1,12 +1,5 @@
-array(4) {
-  ["username"]=>
-  string(5) "12345"
-  ["book_id"]=>
-  string(2) "17"
-  ["comment"]=>
-  string(2) "Hi"
-  ["command"]=>
-  string(12) "Post Comment"
-}
-array(0) {
-}
+SELECT books.id, books.title, books.author, books.price, books.description ,categories.category
+    FROM books
+    LEFT JOIN categories
+    ON books.category_id = categories.id
+    WHERE books.title LIKE '%Tent%'  OR name LIKE '%Tent%' 

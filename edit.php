@@ -46,8 +46,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.tiny.cloud/1/o8nfv5d1yn1qoux0h4h665xs71e1jw91aqfynp7spj0saj92/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
 </head>
 <body>
+  <script>
+        tinymce.init({
+        selector: 'textarea',
+        plugin: 'a_tinymce_plugin',
+        a_plugin_option: true,
+        a_configuration_option: 400,
+        force_br_newlines : true,
+      force_p_newlines : false,
+      forced_root_block : ''
+      });
+      </script>
     <div class="container">
     <!-- notification message -->
     <?php if (isset($_SESSION['success'])) : ?>

@@ -17,7 +17,7 @@
     $statement->bindValue(':id', $id, PDO::PARAM_INT);
     $statement->execute();
 
-    $query_comments = "SELECT u.username, c.comment, c.book_id, c.user_id, c.date_created
+    $query_comments = "SELECT u.username, c.comment, c.id, c.book_id, c.user_id, c.date_created
     FROM comments c
     JOIN users u 
       ON u.id = c.user_id
@@ -136,6 +136,7 @@ $book_post = $statement->fetch();
       <div class="container p-2 my-2 bg-light text-grey">
         <strong><?=$row_comment['username']?></strong>
         <small><?=$row_comment['date_created']?></small>
+        <small><a href="edit_comment.php?id=<?=$row_comment['id']?>">edit</a></small>
         <p><?=$row_comment['comment']?></p>
       </div>
       <?php endwhile?>

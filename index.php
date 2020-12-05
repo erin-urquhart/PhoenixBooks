@@ -32,20 +32,39 @@
     $category = $_POST["category"];
   }
 
-  $query_book = "SELECT books.id, books.title, books.author, books.price, books.description ,categories.category
+  if (isset($_POST['keyword']) && !empty($_POST['keyword']))
+  {
+    $keyword = filter_input(INPUT_POST, 'keyword',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $keys = explode(" ",$keyword);
+
+    $query_book = "SELECT books.id, books.title, books.author, books.price, books.description ,categories.category
     FROM books
     LEFT JOIN categories
     ON books.category_id = categories.id
-    WHERE books.category_id = :category OR :category IS NULL
-    ORDER BY " . $orderby . " " . $order;
-  $statement_book = $db->prepare($query_book);
-  if ($category == "ALL") {
-    $statement_book->bindValue(':category', NULL);
+    WHERE books.title LIKE '%$keyword%' ";
+
+    foreach($keys as $k){
+      $query_book .= " OR books.title LIKE '%$k%' ";
+    }
+    $statement_book = $db->prepare($query_book);
+    $statement_book->execute();
   }
   else {
-    $statement_book->bindValue(':category', $category);  
+    $query_book = "SELECT books.id, books.title, books.author, books.price, books.description ,categories.category
+      FROM books
+      LEFT JOIN categories
+      ON books.category_id = categories.id
+      WHERE books.category_id = :category OR :category IS NULL
+      ORDER BY " . $orderby . " " . $order;
+    $statement_book = $db->prepare($query_book);
+    if ($category == "ALL") {
+      $statement_book->bindValue(':category', NULL);
+    }
+    else {
+      $statement_book->bindValue(':category', $category);  
+    }
+    $statement_book->execute();
   }
-  $statement_book->execute();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -112,7 +131,11 @@
             <input type="submit" name="id" id="id" value="Search" />
             <input type="submit" name="command" value="Reset"/>
         </div>  
-        </form>     
+        </form> 
+        <form action="index.php" method="post">
+          <input type="text" name="keyword">
+          <input type="submit" name="command" value="Search by Keyword">
+        </form>  
       <?php endif ?> 
 <nav class="navbar navbar-expand-sm bg-light justify-content-center">          
   <ul class="navbar-nav">

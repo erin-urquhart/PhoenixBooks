@@ -9,12 +9,12 @@ if (isset($_SESSION['user'])) {
     if ($_SESSION['user']['user_type'] == 'admin') {
         if ($id_valid) {
             $query = "SELECT *
-                  FROM users
+                  FROM comments
                   WHERE id = :id";
             $statement = $db->prepare($query);
             $statement->bindValue(':id', $id, PDO::PARAM_INT);
             $statement->execute();
-            $user = $statement->fetch();
+            $comment = $statement->fetch();
         }
     } else {
         header("Location:index.php");
@@ -65,7 +65,7 @@ if (isset($_SESSION['user'])) {
     </div>
 			<div class="jumbotron text-center" style="margin-bottom: 0">
 				<h1>
-					<a href="index.php">Phoenix Books - Edit User</a>
+					<a href="index.php">Phoenix Books - Edit Comment</a>
 				</h1>
 			</div>
 			<nav class="navbar navbar-expand-sm bg-light justify-content-center">
@@ -83,33 +83,16 @@ if (isset($_SESSION['user'])) {
 				class="d-flex justify-content-center align-items-center container p-2 my-2 bg-light text-grey">
 				<form action="process_post.php" method="post">
 					<fieldset>
-						<legend>Edit User</legend>
+						<legend>Edit Comment</legend>
 						<p>
-							<label for="username">Username</label> <input name="username"
-								id="username" value="<?= $user['username']?>" />
+							<label for="comment">Comment</label>
+							<textarea name="comment" id="comment"><?=$comment['comment']?></textarea>
 						</p>
 						<p>
-							<label for="change_password">Change Password</label> <input
-								name="change_password" id="change_password" />
-						</p>
-						<p>
-							<label for="email">Email</label> <input name="email" id="email"
-								value="<?= $user['email']?>" />
-						</p>
-						<p>
-							<label for="user_type">User Type</label> <select name="user_type"
-								id="user_type">
-								<option value="admin"
-									<?php echo (isset($user['user_type']) && $user['user_type'] == 'admin') ? 'selected="selected"' : ''; ?>>Admin</option>
-								<option value="user"
-									<?php echo (isset($user['user_type']) && $user['user_type'] == 'user') ? 'selected="selected"' : ''; ?>>User</option>
-							</select>
-						</p>
-						<p>
-							<input type="hidden" name="id" value="<?= $user['id']?>" /> <input
-								type="submit" name="command" value="Update User" /> <input
-								type="submit" name="command" value="Delete User"
-								onclick="return confirm('Are you sure you wish to delete this user?')" />
+							<input type="hidden" name="id" value="<?= $comment['id']?>" /> <input
+								type="submit" name="command" value="Update Comment" /> <input
+								type="submit" name="command" value="Delete Comment"
+								onclick="return confirm('Are you sure you wish to delete this comment?')" />
 						</p>
 					</fieldset>
 				</form>

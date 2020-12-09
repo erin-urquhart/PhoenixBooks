@@ -4,10 +4,9 @@ require 'connect.php';
 require '\xampp\htdocs\test\php-image-resize-master\lib\ImageResize.php';
 require '\xampp\htdocs\test\php-image-resize-master\lib\ImageResizeException.php';
 // input sanitization
-// ob_start();
-// var_dump($_POST);
-// var_dump($_FILES);
-// file_put_contents("input.txt", ob_get_flush());
+ob_start();
+var_dump($_POST);
+file_put_contents("input.txt", ob_get_flush());
 $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -123,11 +122,49 @@ if ($_POST['command'] == 'Post Comment') {
         $statement->bindValue(':comment', $comment);
         $statement->execute();
         $insert_id = $db->lastInsertId();
-        file_put_contents("test.txt", "tomato");
-                file_put_contents("test.txt", $user_id, FILE_APPEND);
-        file_put_contents("test.txt", $book_id, FILE_APPEND);
-        file_put_contents("test.txt", $comment, FILE_APPEND);
+    }
+}
 
+// if to check if Update Comment was clicked
+if ($_POST['command'] == 'Update Comment') {
+    $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+    $comment = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $id_valid = is_numeric($id);
+    $comment_valid = isset($comment) && !empty($comment);
+
+    // checks for valid id
+    if ($id_valid) {
+        // checks for a valid post before updating
+        if ($comment_valid) {
+            $query = "UPDATE comments
+                    SET comment = :comment
+                    WHERE id = :id";
+                    $statement = $db->prepare($query);
+                    $statement->bindValue(':id', $id, PDO::PARAM_INT);
+                    $statement->bindValue(':comment', $comment);
+                    $statement->execute();
+        }
+    }
+}
+
+if ($_POST['command'] == 'Delete Comment') {
+    $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+    $id_valid = is_numeric($id);
+    
+
+    // checks for valid id
+    if ($id_valid) {
+        // deletes selected post from the table
+        $query = "DELETE FROM comments WHERE id = :id";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':id', $id, PDO::PARAM_INT);
+        $statement->execute();
+
+    } else {
+        // returns user to index if error was found
+
+        header("Location:index.php");
+        exit();
     }
 }
 

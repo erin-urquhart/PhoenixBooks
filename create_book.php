@@ -35,7 +35,9 @@ if (isset($_SESSION['user'])) {
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 	crossorigin="anonymous"></script>
-<script src="https://cdn.tiny.cloud/1/o8nfv5d1yn1qoux0h4h665xs71e1jw91aqfynp7spj0saj92/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script
+	src="https://cdn.tiny.cloud/1/o8nfv5d1yn1qoux0h4h665xs71e1jw91aqfynp7spj0saj92/tinymce/5/tinymce.min.js"
+	referrerpolicy="origin"></script>
 </head>
 
 
